@@ -12,7 +12,6 @@ if not os.path.exists(OutputFilepath):
 
 
 InputFiles = os.listdir(os.curdir + '/Tests/Input')
-os.system('make')
 failures = 0
 
 
