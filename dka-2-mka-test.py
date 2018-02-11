@@ -50,7 +50,7 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
                     sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
                     failures += 1
-                    continue
+                    break
             sys.stdout.write(intro + "\033[0;32m" + "SUCCESS!\n" + "\033[0;0m")
 
 
