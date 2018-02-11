@@ -28,7 +28,9 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
 
     with open(OutputFilepath + '-i/' + inputFile, 'r') as o:
         with open(reference_output_path, 'r') as ro:
-            for lineO, lineRO in zip(o.xreadlines(), ro.xreadlines()):
+            oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
+            roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
+            for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
                     sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
                     failures += 1
@@ -40,11 +42,16 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
     intro = '\tTEST ' + str(idx + 1) + ': '
     reference_output_path = './Tests/RefOutput/' + inputFile
 
-    if filecmp.cmp(OutputFilepath + '-t/' + inputFile, reference_output_path, False):
-        sys.stdout.write(intro + "\033[0;32m" + "SUCCESS!\n" + "\033[0;0m")
-    else:
-        sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
-        failures += 1
+    with open(OutputFilepath + '-t/' + inputFile, 'r') as o:
+        with open(reference_output_path, 'r') as ro:
+            oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
+            roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
+            for lineO, lineRO in zip(oContent, roContent):
+                if lineO != lineRO and not (lineO + lineRO).isspace():
+                    sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
+                    failures += 1
+                    continue
+            sys.stdout.write(intro + "\033[0;32m" + "SUCCESS!\n" + "\033[0;0m")
 
 
 print('\nAll tests checked, totalling ' + str(failures) + ' errors!')
