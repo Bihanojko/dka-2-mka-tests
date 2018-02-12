@@ -16,13 +16,17 @@ if not os.path.exists(OutputFilepath):
 
 
 InputFiles = os.listdir(os.curdir + '/Tests/Input')
-os.system('make')
 failures = 0
 
 
 for inputFile in sorted(InputFiles):
     os.system('./dka-2-mka -i ./Tests/Input/' + inputFile + ' > ./Tests/Output/-i/' + inputFile)
     os.system('./dka-2-mka -t ./Tests/Input/' + inputFile + ' > ./Tests/Output/-t/' + inputFile)
+
+for outputFile in os.listdir(os.curdir + '/Tests/Output/-t/'):
+    filepath = os.path.join("./Tests/Output/-t/", outputFile)
+    refpath = os.path.join("./Tests/RefOutput/", outputFile)
+    os.system('./normalize.py ' + filepath + " " + refpath)
 
 
 sys.stdout.write("TESTING PARAMETER -i\n")
