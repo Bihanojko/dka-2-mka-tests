@@ -1,3 +1,7 @@
 dka-2-mka
 Tests/Output/*
 normalize.py
+*.hs
+*.o
+*.hi
+Makefile
