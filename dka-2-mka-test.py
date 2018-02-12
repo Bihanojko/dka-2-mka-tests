@@ -4,6 +4,10 @@ import sys
 import shutil
 import filecmp
 
+NumericSortSuffix = ''
+if len(sys.argv) >= 2 and sys.argv[1] == '-numeric':
+    NumericSortSuffix = 'Num'
+
 
 OutputFilepath = './Tests/Output/'
 if not os.path.exists(OutputFilepath):
@@ -43,7 +47,7 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
 sys.stdout.write("\nTESTING PARAMETER -t\n")
 for idx, inputFile in enumerate(sorted(InputFiles)):
     intro = '\tTEST ' + str(idx + 1) + ': '
-    reference_output_path = './Tests/RefOutput/' + inputFile
+    reference_output_path = './Tests/RefOutput' + NumericSortSuffix + '/' + inputFile
 
     with open(OutputFilepath + '-t/' + inputFile, 'r') as o:
         with open(reference_output_path, 'r') as ro:
