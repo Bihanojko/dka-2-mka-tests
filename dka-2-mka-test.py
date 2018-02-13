@@ -39,7 +39,7 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
             failed = False
             oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
             roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
-            if oContent == "":
+            if oContent == "" and roContent != "":
                 failed = True
             for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
@@ -60,7 +60,7 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
             failed = False            
             oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
             roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
-            if oContent == "":
+            if oContent == "" and roContent != "":
                 failed = True
             for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
