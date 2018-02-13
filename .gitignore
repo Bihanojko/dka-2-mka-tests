@@ -5,3 +5,4 @@ normalize.py
 *.o
 *.hi
 Makefile
+README
