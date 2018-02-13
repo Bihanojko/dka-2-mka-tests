@@ -40,13 +40,13 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
             isError = inputFile[:5] == 'error'
             oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
             roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
-            if oContent == "":
-                failed = True
             for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
                     failed = True
-            if oContent == "" and isError:
-                failed = False
+            if oContent != "" and isError:
+                failed = True
+            elif (oContent == "" and roContent != "") or (oContent != "" and roContent == ""):
+                failed = True
             if failed:
                 sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
                 failures += 1
@@ -63,11 +63,11 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
             failed = False            
             oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
             roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
-            if oContent == "" and roContent != "":
-                failed = True
             for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
                     failed = True
+            if (oContent == "" and roContent != "") or (oContent != "" and roContent == ""):
+                failed = True
             if failed:
                 sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
                 failures += 1
