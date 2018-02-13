@@ -37,15 +37,14 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
     with open(OutputFilepath + '-i/' + inputFile, 'r') as o:
         with open(reference_output_path, 'r') as ro:
             failed = False
-            isError = inputFile[:5] == 'error'
             oContent = '\n'.join([x for x in o.read().split("\n") if x.strip()!=''])
             roContent = '\n'.join([x for x in ro.read().split("\n") if x.strip()!=''])
+            isError = inputFile[:5] == 'error'
+            isEmpty = oContent == ""
             for lineO, lineRO in zip(oContent, roContent):
-                if lineO != lineRO and not (lineO + lineRO).isspace():
+                if lineO != lineRO:
                     failed = True
-            if oContent != "" and isError:
-                failed = True
-            elif (oContent == "" and roContent != "") or (oContent != "" and roContent == ""):
+            if isEmpty != isError:
                 failed = True
             if failed:
                 sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
@@ -66,7 +65,7 @@ for idx, inputFile in enumerate(sorted(InputFiles)):
             for lineO, lineRO in zip(oContent, roContent):
                 if lineO != lineRO and not (lineO + lineRO).isspace():
                     failed = True
-            if (oContent == "" and roContent != "") or (oContent != "" and roContent == ""):
+            if oContent != roContent:
                 failed = True
             if failed:
                 sys.stdout.write(intro + "\033[1;31m" + "FAIL!" + "\033[0;0m" + " (" + inputFile + ")\n")
